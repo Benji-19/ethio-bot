@@ -8,20 +8,16 @@ from aiogram.fsm.context import FSMContext
 from aiohttp import web  # 🌐 Added to give Render the web port it wants
 from sqlalchemy import create_engine, Column, Integer, String, Text, BigInteger
 from sqlalchemy.orm import declarative_base, sessionmaker
-
 # --- CONFIGURATION ---
 TOKEN = "8936925896:AAGuDSActdT9UKs_SONbbYS9OhEXfr__26c"
 DATABASE_URL = "sqlite:///dating_app.db"
-
 bot = Bot(token=TOKEN)
 logging.basicConfig(level=logging.INFO)
 dp = Dispatcher()
-
 # --- DATABASE SETUP ---
 Base = declarative_base()
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
-
 class UserProfile(Base):
     __tablename__ = "profiles"
     id = Column(Integer, primary_key=True)
@@ -31,22 +27,18 @@ class UserProfile(Base):
     target_gender = Column(String(20))
     bio = Column(Text)
     language = Column(String(5), default="en")
-
 class LikeRecord(Base):
     __tablename__ = "likes"
     id = Column(Integer, primary_key=True)
     from_tg_id = Column(BigInteger, nullable=False)
     to_tg_id = Column(BigInteger, nullable=False)
-
 Base.metadata.create_all(bind=engine)
-
 class RegistrationStates(StatesGroup):
     language = State()
     name = State()
     gender = State()
     target_gender = State()
     bio = State()
-
 TEXTS = {
     "en": {
         "welcome": "Welcome to Let's Meet New People! ✨\nDiscover meaningful connections instantly.",
